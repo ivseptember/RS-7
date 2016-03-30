@@ -30,9 +30,6 @@
 
 using System;
 using System.Text;
-using SparseCollections;
-using Mathematics;
-
 namespace Mathematics
 {
     enum LinearEquationSolverStatus

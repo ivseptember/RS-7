@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RS_7.Functions.Drives;
-
-namespace RS_7.Functions.GroundReaction
+﻿namespace RS_7.Functions.GroundReaction
 {
     public static class Deformations
     {

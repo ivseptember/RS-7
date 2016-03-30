@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Xml.Serialization;
 using RS_7.Functions;
 using RS_7.Functions.GroundReaction;
 using Mathematics;
-using SparseCollections;
 
 namespace RS_7
 {
