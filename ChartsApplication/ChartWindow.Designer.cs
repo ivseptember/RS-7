@@ -36,9 +36,26 @@
             this.label2 = new System.Windows.Forms.Label();
             this.boxAxisY = new System.Windows.Forms.ComboBox();
             this.btnDrawPlot = new System.Windows.Forms.Button();
-            this.btnSolveModel = new System.Windows.Forms.Button();
             this.plotView = new OxyPlot.WindowsForms.PlotView();
             this.tabsContainer = new System.Windows.Forms.TabControl();
+            this.tabRobot = new System.Windows.Forms.TabPage();
+            this.tabGround = new System.Windows.Forms.TabPage();
+            this.tabControl = new System.Windows.Forms.TabPage();
+            this.btnSolveModel = new System.Windows.Forms.Button();
+            this.robotGrid = new System.Windows.Forms.DataGridView();
+            this.paramsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valuesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groundGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
+            this.modellingTime = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.modellingStep = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.modeBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groundBox = new System.Windows.Forms.ComboBox();
             this.tabCharts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitCharts)).BeginInit();
             this.splitCharts.Panel1.SuspendLayout();
@@ -46,6 +63,13 @@
             this.splitCharts.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabsContainer.SuspendLayout();
+            this.tabRobot.SuspendLayout();
+            this.tabGround.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.robotGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groundGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modellingTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modellingStep)).BeginInit();
             this.SuspendLayout();
             // 
             // tabCharts
@@ -56,7 +80,7 @@
             this.tabCharts.Padding = new System.Windows.Forms.Padding(3);
             this.tabCharts.Size = new System.Drawing.Size(649, 393);
             this.tabCharts.TabIndex = 0;
-            this.tabCharts.Text = "Графики";
+            this.tabCharts.Text = "Результаты - Графики";
             this.tabCharts.UseVisualStyleBackColor = true;
             // 
             // splitCharts
@@ -84,7 +108,6 @@
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.boxAxisY);
             this.flowLayoutPanel1.Controls.Add(this.btnDrawPlot);
-            this.flowLayoutPanel1.Controls.Add(this.btnSolveModel);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -136,18 +159,6 @@
             this.btnDrawPlot.UseVisualStyleBackColor = false;
             this.btnDrawPlot.Click += new System.EventHandler(this.btnDrawPlot_Click);
             // 
-            // btnSolveModel
-            // 
-            this.btnSolveModel.AutoSize = true;
-            this.btnSolveModel.BackColor = System.Drawing.Color.Red;
-            this.btnSolveModel.Location = new System.Drawing.Point(6, 135);
-            this.btnSolveModel.Name = "btnSolveModel";
-            this.btnSolveModel.Size = new System.Drawing.Size(116, 23);
-            this.btnSolveModel.TabIndex = 5;
-            this.btnSolveModel.Text = "Рассчитать модель";
-            this.btnSolveModel.UseVisualStyleBackColor = false;
-            this.btnSolveModel.Click += new System.EventHandler(this.btnSolveModel_Click);
-            // 
             // plotView
             // 
             this.plotView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -163,6 +174,9 @@
             // 
             // tabsContainer
             // 
+            this.tabsContainer.Controls.Add(this.tabControl);
+            this.tabsContainer.Controls.Add(this.tabRobot);
+            this.tabsContainer.Controls.Add(this.tabGround);
             this.tabsContainer.Controls.Add(this.tabCharts);
             this.tabsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabsContainer.Location = new System.Drawing.Point(0, 0);
@@ -171,6 +185,199 @@
             this.tabsContainer.Size = new System.Drawing.Size(657, 419);
             this.tabsContainer.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabsContainer.TabIndex = 0;
+            // 
+            // tabRobot
+            // 
+            this.tabRobot.Controls.Add(this.robotGrid);
+            this.tabRobot.Location = new System.Drawing.Point(4, 22);
+            this.tabRobot.Name = "tabRobot";
+            this.tabRobot.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRobot.Size = new System.Drawing.Size(649, 393);
+            this.tabRobot.TabIndex = 1;
+            this.tabRobot.Text = "Настройка модели робота";
+            this.tabRobot.UseVisualStyleBackColor = true;
+            // 
+            // tabGround
+            // 
+            this.tabGround.Controls.Add(this.groundGrid);
+            this.tabGround.Location = new System.Drawing.Point(4, 22);
+            this.tabGround.Name = "tabGround";
+            this.tabGround.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGround.Size = new System.Drawing.Size(649, 393);
+            this.tabGround.TabIndex = 2;
+            this.tabGround.Text = "Настройка модели грунта";
+            this.tabGround.UseVisualStyleBackColor = true;
+            // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.groundBox);
+            this.tabControl.Controls.Add(this.label6);
+            this.tabControl.Controls.Add(this.modeBox);
+            this.tabControl.Controls.Add(this.label5);
+            this.tabControl.Controls.Add(this.modellingStep);
+            this.tabControl.Controls.Add(this.label4);
+            this.tabControl.Controls.Add(this.modellingTime);
+            this.tabControl.Controls.Add(this.label3);
+            this.tabControl.Controls.Add(this.btnSolveModel);
+            this.tabControl.Location = new System.Drawing.Point(4, 22);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.Size = new System.Drawing.Size(649, 393);
+            this.tabControl.TabIndex = 3;
+            this.tabControl.Text = "Панель управления";
+            this.tabControl.UseVisualStyleBackColor = true;
+            // 
+            // btnSolveModel
+            // 
+            this.btnSolveModel.AutoSize = true;
+            this.btnSolveModel.BackColor = System.Drawing.Color.Red;
+            this.btnSolveModel.Location = new System.Drawing.Point(11, 120);
+            this.btnSolveModel.Name = "btnSolveModel";
+            this.btnSolveModel.Size = new System.Drawing.Size(116, 23);
+            this.btnSolveModel.TabIndex = 6;
+            this.btnSolveModel.Text = "Рассчитать модель";
+            this.btnSolveModel.UseVisualStyleBackColor = false;
+            this.btnSolveModel.Click += new System.EventHandler(this.btnSolveModel_Click);
+            // 
+            // robotGrid
+            // 
+            this.robotGrid.AllowUserToAddRows = false;
+            this.robotGrid.AllowUserToDeleteRows = false;
+            this.robotGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.robotGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.robotGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.paramsColumn,
+            this.valuesColumn});
+            this.robotGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.robotGrid.Location = new System.Drawing.Point(3, 3);
+            this.robotGrid.Name = "robotGrid";
+            this.robotGrid.Size = new System.Drawing.Size(643, 387);
+            this.robotGrid.TabIndex = 0;
+            // 
+            // paramsColumn
+            // 
+            this.paramsColumn.HeaderText = "Параметр";
+            this.paramsColumn.Name = "paramsColumn";
+            this.paramsColumn.ReadOnly = true;
+            // 
+            // valuesColumn
+            // 
+            this.valuesColumn.HeaderText = "Значение";
+            this.valuesColumn.Name = "valuesColumn";
+            // 
+            // groundGrid
+            // 
+            this.groundGrid.AllowUserToAddRows = false;
+            this.groundGrid.AllowUserToDeleteRows = false;
+            this.groundGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.groundGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.groundGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2});
+            this.groundGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groundGrid.Location = new System.Drawing.Point(3, 3);
+            this.groundGrid.MultiSelect = false;
+            this.groundGrid.Name = "groundGrid";
+            this.groundGrid.Size = new System.Drawing.Size(643, 387);
+            this.groundGrid.TabIndex = 1;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Параметр";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Значение";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(138, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Время моделирования, с.";
+            // 
+            // modellingTime
+            // 
+            this.modellingTime.DecimalPlaces = 2;
+            this.modellingTime.Location = new System.Drawing.Point(11, 25);
+            this.modellingTime.Name = "modellingTime";
+            this.modellingTime.Size = new System.Drawing.Size(120, 20);
+            this.modellingTime.TabIndex = 8;
+            this.modellingTime.Value = new decimal(new int[] {
+            352,
+            0,
+            0,
+            65536});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(211, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(125, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Шаг моделирования, с.";
+            // 
+            // modellingStep
+            // 
+            this.modellingStep.DecimalPlaces = 4;
+            this.modellingStep.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            this.modellingStep.Location = new System.Drawing.Point(214, 25);
+            this.modellingStep.Name = "modellingStep";
+            this.modellingStep.Size = new System.Drawing.Size(120, 20);
+            this.modellingStep.TabIndex = 10;
+            this.modellingStep.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(95, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Режим движения";
+            // 
+            // modeBox
+            // 
+            this.modeBox.FormattingEnabled = true;
+            this.modeBox.Items.AddRange(new object[] {
+            "Старт-стопный",
+            "Непрерывное перемещение корпуса"});
+            this.modeBox.Location = new System.Drawing.Point(11, 76);
+            this.modeBox.Name = "modeBox";
+            this.modeBox.Size = new System.Drawing.Size(121, 21);
+            this.modeBox.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(211, 60);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(93, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Тип поверхности";
+            // 
+            // groundBox
+            // 
+            this.groundBox.FormattingEnabled = true;
+            this.groundBox.Items.AddRange(new object[] {
+            "Ровная горизонтальная"});
+            this.groundBox.Location = new System.Drawing.Point(214, 76);
+            this.groundBox.Name = "groundBox";
+            this.groundBox.Size = new System.Drawing.Size(121, 21);
+            this.groundBox.TabIndex = 14;
             // 
             // ChartWindow
             // 
@@ -188,6 +395,14 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tabsContainer.ResumeLayout(false);
+            this.tabRobot.ResumeLayout(false);
+            this.tabGround.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
+            this.tabControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.robotGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groundGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modellingTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.modellingStep)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -204,9 +419,23 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox boxAxisY;
         private System.Windows.Forms.Button btnDrawPlot;
+        private System.Windows.Forms.TabPage tabControl;
         private System.Windows.Forms.Button btnSolveModel;
-
-
-
+        private System.Windows.Forms.TabPage tabRobot;
+        private System.Windows.Forms.DataGridView robotGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn paramsColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn valuesColumn;
+        private System.Windows.Forms.TabPage tabGround;
+        private System.Windows.Forms.DataGridView groundGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown modellingStep;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown modellingTime;
+        private System.Windows.Forms.ComboBox groundBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox modeBox;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -68,53 +68,55 @@ namespace RS_7
             for (int i = 0; i < GroundModel.cp.Length; ++i)
                 GroundModel.cp[i] = double.NaN;
 
-            // weight
-            sp_1[(int)SP.m1] = 70;
-            sp_1[(int)SP.m4] = 50;
-            sp_1[(int)SP.m2] = 17.5;
-            sp_1[(int)SP.m3] = 17.5;
-            sp_1[(int)SP.m5] = 22.5;
-            sp_1[(int)SP.m6] = 22.5;
+            #region Old static parameters
+            //// weight
+            //sp_1[(int)SP.m1] = 70;
+            //sp_1[(int)SP.m4] = 50;
+            //sp_1[(int)SP.m2] = 17.5;
+            //sp_1[(int)SP.m3] = 17.5;
+            //sp_1[(int)SP.m5] = 22.5;
+            //sp_1[(int)SP.m6] = 22.5;
 
-            // shifts
-            sp_1[(int)SP.x14] = 0;
-            sp_1[(int)SP.y12] = 0.3;
-            sp_1[(int)SP.y13] = -0.3;
-            sp_1[(int)SP.y14] = 0;
-            sp_1[(int)SP.y45] = 0.4;
-            sp_1[(int)SP.y46] = -0.4;
-            sp_1[(int)SP.z12] = 0;
-            sp_1[(int)SP.z13] = 0;
-            sp_1[(int)SP.z14] = 0.15;
-            sp_1[(int)SP.z45] = 0;
-            sp_1[(int)SP.z46] = 0;
+            //// shifts
+            //sp_1[(int)SP.x14] = 0;
+            //sp_1[(int)SP.y12] = 0.3;
+            //sp_1[(int)SP.y13] = -0.3;
+            //sp_1[(int)SP.y14] = 0;
+            //sp_1[(int)SP.y45] = 0.4;
+            //sp_1[(int)SP.y46] = -0.4;
+            //sp_1[(int)SP.z12] = 0;
+            //sp_1[(int)SP.z13] = 0;
+            //sp_1[(int)SP.z14] = 0.15;
+            //sp_1[(int)SP.z45] = 0;
+            //sp_1[(int)SP.z46] = 0;
 
-            // dimensions
-            sp_1[(int)SP.l21] = +0.6;
-            sp_1[(int)SP.l22] = -0.6;
-            sp_1[(int)SP.l33] = -0.6;
-            sp_1[(int)SP.l34] = +0.6;
-            sp_1[(int)SP.l55] = +0.6;
-            sp_1[(int)SP.l56] = -0.6;
-            sp_1[(int)SP.l67] = -0.6;
-            sp_1[(int)SP.l68] = +0.6;
+            //// dimensions
+            //sp_1[(int)SP.l21] = +0.6;
+            //sp_1[(int)SP.l22] = -0.6;
+            //sp_1[(int)SP.l33] = -0.6;
+            //sp_1[(int)SP.l34] = +0.6;
+            //sp_1[(int)SP.l55] = +0.6;
+            //sp_1[(int)SP.l56] = -0.6;
+            //sp_1[(int)SP.l67] = -0.6;
+            //sp_1[(int)SP.l68] = +0.6;
 
-            // actuator
-            sp_1[(int)SP.s0] = 0.19;
+            //// actuator
+            //sp_1[(int)SP.s0] = 0.19;
 
-            // inertia
-            sp_1[(int)SP.J1] = 1.6965;// *1.5;
-            sp_1[(int)SP.J2] = 8.5175;// *1.5;
-            sp_1[(int)SP.J3] = 8.6385;// *1.5;
+            //// inertia
+            //sp_1[(int)SP.J1] = 1.6965;// *1.5;
+            //sp_1[(int)SP.J2] = 8.5175;// *1.5;
+            //sp_1[(int)SP.J3] = 8.6385;// *1.5;
 
-            // ground coefficients
-            sp_1[(int)SP.zeta_c] = -10000;
-            sp_1[(int)SP.eta_c] = -7000;
-            sp_1[(int)SP.xi_c] = -7000;
+            //// ground coefficients
+            //sp_1[(int)SP.zeta_c] = -10000;
+            //sp_1[(int)SP.eta_c] = -7000;
+            //sp_1[(int)SP.xi_c] = -7000;
 
-            sp_1[(int)SP.zeta_a] = 450;
-            sp_1[(int)SP.eta_a] = 250;
-            sp_1[(int)SP.xi_a] = 250;
+            //sp_1[(int)SP.zeta_a] = 450;
+            //sp_1[(int)SP.eta_a] = 250;
+            //sp_1[(int)SP.xi_a] = 250;
+            #endregion
 
             //=====================================
 
