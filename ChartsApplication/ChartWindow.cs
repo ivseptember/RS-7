@@ -27,8 +27,14 @@ namespace ChartsApplication
             boxAxisX.DataSource = Enum.GetNames(typeof(HP));
             boxAxisX.SelectedIndex = 0;
 
-            boxAxisY.DataSource = Enum.GetNames(typeof(HP));
-            boxAxisY.SelectedIndex = 1;
+            boxAxisY1.DataSource = Enum.GetNames(typeof(HP));
+            boxAxisY1.SelectedIndex = 1;
+
+            boxAxisY2.DataSource = Enum.GetNames(typeof(HP));
+            boxAxisY2.SelectedIndex = 1;
+
+            boxAxisY3.DataSource = Enum.GetNames(typeof(HP));
+            boxAxisY3.SelectedIndex = 1;
 
             // Disable inactive controls
             btnDrawPlot.Enabled = false;
@@ -132,22 +138,117 @@ namespace ChartsApplication
 
         private void btnDrawPlot_Click(object sender, EventArgs e)
         {
-            List<DataPoint> points = new List<DataPoint>();
+            List<DataPoint> points_1 = new List<DataPoint>();
+            List<DataPoint> points_2 = new List<DataPoint>();
+            List<DataPoint> points_3 = new List<DataPoint>();
+
+            double min_y_1 = Double.MaxValue;
+            double max_y_1 = Double.MinValue;
+
+            double min_y_2 = Double.MaxValue;
+            double max_y_2 = Double.MinValue;
+
+            double min_y_3 = Double.MaxValue;
+            double max_y_3 = Double.MinValue;
+
+            double res_amp = 0;
 
             int param_x = boxAxisX.SelectedIndex;
-            int param_y = boxAxisY.SelectedIndex;
+            int param_y = boxAxisY1.SelectedIndex;
 
             for (int i = 0; i < iteration_count; ++i)
             {
-                points.Add(new DataPoint(params_history[i, param_x], params_history[i, param_y]));
+                if (params_history[i, param_y] > max_y_1) max_y_1 = params_history[i, param_y];
+                if (params_history[i, param_y] < min_y_1) min_y_1 = params_history[i, param_y];
+            }
+
+            res_amp = Math.Abs(max_y_1 - min_y_1);
+
+            if (checkY2.Checked)
+            {
+                param_x = boxAxisX.SelectedIndex;
+                param_y = boxAxisY2.SelectedIndex;
+
+                for (int i = 0; i < iteration_count; ++i)
+                {
+                    if (params_history[i, param_y] > max_y_2) max_y_2 = params_history[i, param_y];
+                    if (params_history[i, param_y] < min_y_2) min_y_2 = params_history[i, param_y];
+                }
+
+                if (Math.Abs(max_y_2 - min_y_2) > res_amp)
+                    res_amp = Math.Abs(max_y_2 - min_y_2);
+            }
+
+            if (checkY3.Checked)
+            {
+                param_x = boxAxisX.SelectedIndex;
+                param_y = boxAxisY3.SelectedIndex;
+
+                for (int i = 0; i < iteration_count; ++i)
+                {
+                    if (params_history[i, param_y] > max_y_3) max_y_3 = params_history[i, param_y];
+                    if (params_history[i, param_y] < min_y_3) min_y_3 = params_history[i, param_y];
+                }
+
+                if (Math.Abs(max_y_3 - min_y_3) > res_amp)
+                    res_amp = Math.Abs(max_y_3 - min_y_3);
+            }
+
+
+            double adopt_coeff = res_amp / Math.Abs(max_y_1 - min_y_1);
+
+            param_x = boxAxisX.SelectedIndex;
+            param_y = boxAxisY1.SelectedIndex;
+
+            for (int i = 0; i < iteration_count; ++i)
+            {
+                points_1.Add(new DataPoint(params_history[i, param_x], params_history[i, param_y] * adopt_coeff));
+            }
+
+            if (checkY2.Checked)
+            {
+                adopt_coeff = res_amp / Math.Abs(max_y_2 - min_y_2);
+
+                param_x = boxAxisX.SelectedIndex;
+                param_y = boxAxisY2.SelectedIndex;
+
+                for (int i = 0; i < iteration_count; ++i)
+                {
+                    points_2.Add(new DataPoint(params_history[i, param_x], params_history[i, param_y] * adopt_coeff));
+                }
+            }
+
+            if (checkY3.Checked)
+            {
+                adopt_coeff = res_amp / Math.Abs(max_y_3 - min_y_3);
+
+                param_x = boxAxisX.SelectedIndex;
+                param_y = boxAxisY3.SelectedIndex;
+
+                for (int i = 0; i < iteration_count; ++i)
+                {
+                    points_3.Add(new DataPoint(params_history[i, param_x], params_history[i, param_y] * adopt_coeff));
+                }
             }
 
             var model = new PlotModel();
 
             var chart = new LineSeries();
-            chart.Points.AddRange(points);
+            chart.Points.AddRange(points_1);
             chart.StrokeThickness = chart.StrokeThickness;
             chart.Color = OxyColors.DarkBlue;
+            model.Series.Add(chart);
+
+            chart = new LineSeries();
+            chart.Points.AddRange(points_2);
+            chart.StrokeThickness = chart.StrokeThickness;
+            chart.Color = OxyColors.DarkGreen;
+            model.Series.Add(chart);
+
+            chart = new LineSeries();
+            chart.Points.AddRange(points_3);
+            chart.StrokeThickness = chart.StrokeThickness;
+            chart.Color = OxyColors.DarkRed;
             model.Series.Add(chart);
 
             model.Axes.Add(new LinearAxis {
@@ -155,12 +256,15 @@ namespace ChartsApplication
                 Title = boxAxisX.SelectedText,
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
+                Minimum = 0,
             });
             model.Axes.Add(new LinearAxis {
                 Position = AxisPosition.Left,
-                Title = boxAxisY.SelectedText,
+                Title = boxAxisY1.SelectedText,
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
+                //Minimum = min_y,
+                //Maximum = max_y,
             });
 
             plotView.Model = model;

@@ -820,7 +820,11 @@ namespace RS_7
             params_history[iteration_count, (int)HP.S7Diff] = Functions.Drives.S7Diff.calculate(dp_1[0]);
             params_history[iteration_count, (int)HP.S8Diff] = Functions.Drives.S8Diff.calculate(dp_1[0]);
 
-            params_history[iteration_count, (int)HP.ECount] = last_equations_count;
+            //params_history[iteration_count, (int)HP.ECount] = last_equations_count;
+            if (dp_1[(int)DP.t] > 19.029)
+                params_history[iteration_count, (int)HP.ECount] = dp_1[(int)DP.zeta] - 0.02;
+            else
+                params_history[iteration_count, (int)HP.ECount] = dp_1[(int)DP.zeta];
 
             params_history[iteration_count, (int)HP.xi_1] = GroundModel.cp[0];
             params_history[iteration_count, (int)HP.eta_1] = GroundModel.cp[1];
