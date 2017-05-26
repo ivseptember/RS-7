@@ -3,10 +3,12 @@ using RS_7.Functions.Drives;
 
 namespace RS_7.Functions.GroundReaction
 {
+    // Классы NxXi выполняют расчет силы реакции опоры для x-ой ноги робота по оси xi
     public class N1Xi
     {
         public static double calculate(IList<double> dp, IList<double> sp)
         {
+            // Инициализация структуры с параметрами расчета
             NxParameter p = new NxParameter();
 
             p.xi = dp[(int)DP.xi];
@@ -42,6 +44,7 @@ namespace RS_7.Functions.GroundReaction
 
             p.t = dp[(int)DP.t];
 
+            // Расчет сил реакции опоры
             return NxXi.calculate(p, out Deformations.defs[(int)DefParams.D1Xi], out Deformations.defs[(int)DefParams.D1Xi_S]);
         }
     }

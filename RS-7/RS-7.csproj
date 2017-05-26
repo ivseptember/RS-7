@@ -70,9 +70,11 @@
     <Compile Include="Functions\InertiaMoments\JxSumm.cs" />
     <Compile Include="Functions\InertiaMoments\Mx.cs" />
     <Compile Include="Functions\MatrixCoeffA.cs" />
+    <Compile Include="Functions\MatrixCoeffAMin.cs" />
     <Compile Include="Functions\MatrixCoeffB.cs" />
     <Compile Include="Functions\Drives\Sx.cs" />
     <Compile Include="Functions\Drives\SxDiff.cs" />
+    <Compile Include="Functions\MatrixCoeffBMin.cs" />
     <Compile Include="MatrixSolver\LinearEquationSolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

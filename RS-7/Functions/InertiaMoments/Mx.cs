@@ -4,6 +4,8 @@ using RS_7.Functions.Drives;
 
 namespace RS_7.Functions.InertiaMoments
 {
+    // Вспомогательный класс для расчета момента инерции M по каждой из осей (xi, eta, zeta)
+    // Методы calculate_M* возвращают значения соответствующего момента инерции для указанного состояния робота
     public class Mx
     {
         public static double g = 9.80665;

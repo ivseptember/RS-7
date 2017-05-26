@@ -21,9 +21,10 @@ namespace ChartsApplication
             FillDefaultValues();
         }
 
+        // Метод загружает значения по умолчанию в таблицы параметров и настроек
         private void FillDefaultValues()
         {
-            // Graphics
+            // Вкладка графиков
             boxAxisX.DataSource = Enum.GetNames(typeof(HP));
             boxAxisX.SelectedIndex = 0;
 
@@ -36,22 +37,14 @@ namespace ChartsApplication
             boxAxisY3.DataSource = Enum.GetNames(typeof(HP));
             boxAxisY3.SelectedIndex = 1;
 
-            // Disable inactive controls
+            // Отключение кнопки отрисовки
             btnDrawPlot.Enabled = false;
 
-            // Control panel elements
+            // Установка значений по умолчанию для переключателей грунта и режимов движения
             modeBox.SelectedIndex = 0;
             groundBox.SelectedIndex = 0;
 
-            // Ground model table
-            // ground coefficients
-            //sp_1[(int)SP.zeta_c] = -10000;
-            //sp_1[(int)SP.eta_c] = -7000;
-            //sp_1[(int)SP.xi_c] = -7000;
-
-            //sp_1[(int)SP.zeta_a] = 450;
-            //sp_1[(int)SP.eta_a] = 250;
-            //sp_1[(int)SP.xi_a] = 250;
+            // Установка параметров грунта
 
             groundGrid.Rows.Add(new object[] { SP.zeta_c , 10000 });
             groundGrid.Rows.Add(new object[] { SP.eta_c, 7000 });
@@ -61,15 +54,7 @@ namespace ChartsApplication
             groundGrid.Rows.Add(new object[] { SP.eta_a, 250 });
             groundGrid.Rows.Add(new object[] { SP.xi_a, 250 });
 
-            // Robot model table
-            // weight
-            //sp_1[(int)SP.m1] = 70;
-            //sp_1[(int)SP.m4] = 50;
-            //sp_1[(int)SP.m2] = 17.5;
-            //sp_1[(int)SP.m3] = 17.5;
-            //sp_1[(int)SP.m5] = 22.5;
-            //sp_1[(int)SP.m6] = 22.5;
-
+            // Установка параметров физической модели робота
             robotGrid.Rows.Add(new object[] { SP.m1, 70 });
             robotGrid.Rows.Add(new object[] { SP.m2, 50 });
             robotGrid.Rows.Add(new object[] { SP.m3, 17.5 });
@@ -77,19 +62,7 @@ namespace ChartsApplication
             robotGrid.Rows.Add(new object[] { SP.m5, 22.5 });
             robotGrid.Rows.Add(new object[] { SP.m6, 22.5 });
 
-            // shifts
-            //sp_1[(int)SP.x14] = 0;
-            //sp_1[(int)SP.y12] = 0.3;
-            //sp_1[(int)SP.y13] = -0.3;
-            //sp_1[(int)SP.y14] = 0;
-            //sp_1[(int)SP.y45] = 0.4;
-            //sp_1[(int)SP.y46] = -0.4;
-            //sp_1[(int)SP.z12] = 0;
-            //sp_1[(int)SP.z13] = 0;
-            //sp_1[(int)SP.z14] = 0.15;
-            //sp_1[(int)SP.z45] = 0;
-            //sp_1[(int)SP.z46] = 0;
-
+            // Настройка статических параметров модели и положения робота в пространстве
             robotGrid.Rows.Add(new object[] { SP.x14, 0 });
             robotGrid.Rows.Add(new object[] { SP.y12, 0.3 });
             robotGrid.Rows.Add(new object[] { SP.y13, -0.3 });
@@ -102,16 +75,6 @@ namespace ChartsApplication
             robotGrid.Rows.Add(new object[] { SP.z45, 0 });
             robotGrid.Rows.Add(new object[] { SP.z46, 0 });
 
-            // dimensions
-            //sp_1[(int)SP.l21] = +0.6;
-            //sp_1[(int)SP.l22] = -0.6;
-            //sp_1[(int)SP.l33] = -0.6;
-            //sp_1[(int)SP.l34] = +0.6;
-            //sp_1[(int)SP.l55] = +0.6;
-            //sp_1[(int)SP.l56] = -0.6;
-            //sp_1[(int)SP.l67] = -0.6;
-            //sp_1[(int)SP.l68] = +0.6;
-
             robotGrid.Rows.Add(new object[] { SP.l21, +0.6 });
             robotGrid.Rows.Add(new object[] { SP.l22, -0.6 });
             robotGrid.Rows.Add(new object[] { SP.l33, -0.6 });
@@ -121,16 +84,10 @@ namespace ChartsApplication
             robotGrid.Rows.Add(new object[] { SP.l67, -0.6 });
             robotGrid.Rows.Add(new object[] { SP.l68, +0.6 });
 
-            // actuator
-            //sp_1[(int)SP.s0] = 0.19;
-
+            // Установка минимальной длины ног робота
             robotGrid.Rows.Add(new object[] { SP.s0, 0.19 });
 
-            // inertia
-            //sp_1[(int)SP.J1] = 1.6965;// *1.5;
-            //sp_1[(int)SP.J2] = 8.5175;// *1.5;
-            //sp_1[(int)SP.J3] = 8.6385;// *1.5;
-
+            // Установка статических моментов инерции
             robotGrid.Rows.Add(new object[] { SP.J1, 1.6965 });
             robotGrid.Rows.Add(new object[] { SP.J2, 8.5175 });
             robotGrid.Rows.Add(new object[] { SP.J3, 8.6385 });
@@ -270,12 +227,15 @@ namespace ChartsApplication
             plotView.Model = model;
         }
 
+        // Метод выполняет моделирование движения робота с помощью библиотеки RS-7
         private void btnSolveModel_Click(object sender, EventArgs e)
         {
+            // Инициализировать решатель и элементы управления
             slv = new ModelSolver();
             btnDrawPlot.Enabled = false;
             btnSolveModel.Enabled = false;
 
+            // Передать заданные статические параметры модели робота / грунта / начального положения
             // weight
             slv.sp_1[(int)SP.m1] = Double.Parse(robotGrid.Rows[(int)SP.m1].Cells[1].Value.ToString());
             slv.sp_1[(int)SP.m4] = Double.Parse(robotGrid.Rows[(int)SP.m4].Cells[1].Value.ToString());
@@ -324,9 +284,11 @@ namespace ChartsApplication
             slv.sp_1[(int)SP.eta_a] = Double.Parse(groundGrid.Rows[4].Cells[1].Value.ToString());
             slv.sp_1[(int)SP.xi_a] = Double.Parse(groundGrid.Rows[5].Cells[1].Value.ToString());
 
+            // Выполнить расчет
             slv.Solve();
             iteration_count = slv.GetHistory(out params_history);
 
+            // Активировать элементы управления расчетом и отрисовкой
             btnDrawPlot.Enabled = true;
             btnSolveModel.Enabled = true;
         }

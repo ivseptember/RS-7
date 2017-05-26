@@ -5,6 +5,7 @@ using RS_7.Functions.GroundReaction;
 
 namespace RS_7.Functions
 {
+    // Класс содержит методы для расчета значения каждого элемента вектора B
     public class MatrixCoeffB
     {
         public static double g = 9.80665;

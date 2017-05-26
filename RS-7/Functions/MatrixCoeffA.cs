@@ -2,6 +2,7 @@
 
 namespace RS_7.Functions
 {
+    // Класс содержит методы для расчета значения каждого элемента матрицы коэффициентов A
     public class MatrixCoeffA
     {
         public static double axx(IList<double> dp, IList<double> sp)

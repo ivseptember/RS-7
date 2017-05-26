@@ -1,53 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Mathematics;
 using RS_7.Functions;
 using RS_7.Functions.GroundReaction;
-using Mathematics;
+using System;
+using System.Collections.Generic;
 
 namespace RS_7
 {
     public class ModelSolver
     {
+        // Поля для хранения истории текущего расчета
         public double[,] params_history;
         public int iteration_count;
         public int last_equations_count;
 
+        // Поля для хранения динамических параметров (4 для использования в методе РК 4-го порядка)
         public double[] dp_1;
         public double[] dp_2;
         public double[] dp_3;
         public double[] dp_4;
         
+        // Флаги перехода между базовыми состояниями робота
         bool I = false;
         bool IV = false;
         bool V = false;
         bool VIII = false;
 
-        double x1N_base = -1;
-        double x4N_base = -1;
-        double xi_base = -1;
-        double xNN_delta = 0.2;
+        // Поля для хранения управления горизонтальным перемещением
+        double x1N_base = -1;   // базовое положение нижней рамы
+        double x4N_base = -1;   // базовое положение верхней рамы
+        double xi_base = -1;    // базовое положение робота
+        double xNN_delta = 0.2; // прирост расстояния за этап расчета
 
+        // Период работы приводов при горизонтальном перемещении
         double t_force_period = 4;
 
+        // Набор коэффициентов для использования в методе РК 4-го порядка
         public double[] coeff_1;
         public double[] coeff_2;
         public double[] coeff_3;
         public double[] coeff_4;
 
+        // Статические параметры модели робота
         public double[] sp_1;
 
+        // Матрицы математической модели
         public double[,] aMatrix;
         public double[] bVector;
         public double[] xVector;
 
+        // Максимальное время моделирования
         public double time_limit = 35.2;
+
+        // Шаг моделирования
         public double delta_limit = 0.001;
 
+        // Максимальный размах рам робота (возможно, стоит внести в стат. параметры)
         public double MAX_REL_DISTANCE_2_3 = 0.375;
         public double MAX_REL_DISTANCE_5_6 = 0.425;
 
+        // Метод выполняет инициализацию процесса расчета
         public ModelSolver()
         {
+            // Создание необходимых массивов
             int dp_len = Enum.GetNames(typeof(DP)).Length;
             int sp_len = Enum.GetNames(typeof(SP)).Length;
             int cp_len = Enum.GetNames(typeof(CP)).Length;
@@ -64,6 +78,7 @@ namespace RS_7
 
             sp_1 = new double[sp_len];
 
+            // Инициализация модели грунта
             GroundModel.cp = new double[cp_len];
             for (int i = 0; i < GroundModel.cp.Length; ++i)
                 GroundModel.cp[i] = double.NaN;
@@ -120,10 +135,10 @@ namespace RS_7
 
             //=====================================
 
-            // init time
+            // Установка начального момента времени
             dp_1[(int)DP.t] = 0;
 
-            // other
+            // Задание начального положения робота
             #region Normal
             dp_1[(int)DP.xi] = 0;
             dp_1[(int)DP.xi_t] = 0;
@@ -197,15 +212,18 @@ namespace RS_7
 
             //=====================================
 
-            //init history matrix
+            // Инициализация массивов для записи истории расчета
             params_history = new double[(int)(time_limit / delta_limit + 1), Enum.GetNames(typeof(HP)).Length];
             Deformations.defs = new double[Enum.GetValues(typeof(DefParams)).Length];
         }
 
+        // Метод выполняет моделирование движения робота
         public void Solve()
         {
+            // Выставляем номер итерации
             iteration_count = 0;
 
+            // Запускаем расчет
             for (double timer = 0; timer < time_limit; timer += delta_limit)
             {
                 #region DebugPrint_Reactions
@@ -227,6 +245,7 @@ namespace RS_7
                 //}
                 #endregion
 
+                // Инициализируем массивы коэффициентов
                 int dp_len = Enum.GetNames(typeof(DP)).Length;
 
                 coeff_1 = new double[dp_len];
@@ -286,7 +305,7 @@ namespace RS_7
                 CalcContactPoint(dp_4, sp_1);
                 CalcAnyCoeff(dp_4, sp_1, coeff_4, 4);
 
-                // Возвращаемся
+                // Возвращаемся (получаем расчетное значение параметра)
                 dp_1[(int)DP.t] += delta_limit;
                 for (int i = 1; i <= (int)DP.x46_t; i++)
                 {
@@ -295,16 +314,19 @@ namespace RS_7
                     CorrectHorizontalMove(dp_1, null);
                 }
 
+                // Делаем магию (?)
                 if (dp_1[(int)DP.t] > 8)
                 {
                     ++iteration_count;
                     --iteration_count;
                 }
 
+                // Увеличиваем номер итерации
                 iteration_count++;
             }
         }
 
+        // Метод выполняет расчет коэффициента для метода РК 4-го порядка
         private void CalcAnyCoeff(IList<double> dp, IList<double> sp, IList<double> coeff, int number)
         {
             // Собираем набор переменных для первого коэффициента
@@ -327,7 +349,10 @@ namespace RS_7
 
             #endregion
 
+            // Решаем систему уравнений
             LinearEquationSolverStatus stat = LinearEquationSolver.Solve(equations_count, aMatrix, bVector, xVector);
+
+            // Разбираем результаты расчета
             if (stat == LinearEquationSolverStatus.Success)
             {
                 coeff[(int)DP.xi_t] = xVector[0];
@@ -376,11 +401,16 @@ namespace RS_7
             }
         }
 
+        // Метод формирует расчетные матрицы для решения уравнений
         private int CreateMatrix(IList<double> dp, IList<double> sp)
         {
+            // Задаем кол-во уравнений
             int equations_count = 6;
 
+            // Получаем относительное положение рам робота для текущего момента времени
             GenerateRelativeDistances(dp, sp);
+
+            // Формируем матрицы
             FillStaticPart(dp, sp);
 
             #region Dynamic Equations
@@ -457,6 +487,7 @@ namespace RS_7
             return equations_count;
         }
 
+        // Метод рассчитывает относительные координаты рам робота для текущего момента времени
         private void GenerateRelativeDistances(IList<double> dp, IList<double> sp)
         {
             // Режимы движения: x12 и x13 сдвигаются с 6 до 10 секунд
@@ -467,6 +498,7 @@ namespace RS_7
             double t = dp[(int)DP.t] - 6.0;
             if (t >= 0.0 && t <= t_force_period)
             {
+                // При переходе на этот этап движения выставляем текущие параметры
                 if (!I)
                 {
                     xNN_delta = 0.40;
@@ -476,6 +508,7 @@ namespace RS_7
                     I = true;
                 }
 
+                // Рассчитываем положение рам и скорости для текущего момента времени
                 dp[(int)DP.x12] = x1N_base + xNN_delta * (t / t_force_period - Math.Sin((Math.PI * 2 * t) / t_force_period) / (Math.PI * 2));
                 dp[(int)DP.x13] = x1N_base + xNN_delta * (t / t_force_period - Math.Sin((Math.PI * 2 * t) / t_force_period) / (Math.PI * 2));
                 dp[(int)DP.x12_t] = xNN_delta * (1 / t_force_period - Math.Cos((Math.PI * 2 * t) / t_force_period) / (t_force_period));
@@ -537,13 +570,14 @@ namespace RS_7
             }
         }
 
+        // Метод формирует расчетные матрицы
         private void FillStaticPart(IList<double> dp, IList<double> sp)
         {
             aMatrix = new double[10, 10];
             bVector = new double[10];
             xVector = new double[10];
 
-            // coeff b
+            // Вектор B
             bVector[0] = MatrixCoeffB.b1(dp, sp);
             bVector[1] = MatrixCoeffB.b2(dp, sp);
             bVector[2] = MatrixCoeffB.b3(dp, sp);
@@ -551,7 +585,7 @@ namespace RS_7
             bVector[4] = MatrixCoeffB.b5(dp, sp);
             bVector[5] = MatrixCoeffB.b6(dp, sp);
 
-            // coeff a
+            // Матрица А
             aMatrix[0, 0] = MatrixCoeffA.a11(dp, sp);
             aMatrix[0, 4] = MatrixCoeffA.a15(dp, sp);
             aMatrix[0, 6] = MatrixCoeffA.a17(dp, sp);
@@ -600,6 +634,7 @@ namespace RS_7
             aMatrix[5, 9] = MatrixCoeffA.a60(dp, sp);
         }
 
+        // Метод рассчитывает текущие значения сил реакции опоры
         private void CalcContactPoint(IList<double> dp, IList<double> sp)
         {
             Functions.GroundReaction.N1Zeta.calculate(dp, sp);
@@ -612,6 +647,7 @@ namespace RS_7
             Functions.GroundReaction.N8Zeta.calculate(dp, sp);
         }
 
+        // Метод выполняет запись всех параметров текущей итерации в массив истории
         private void SaveCurrentIteration()
         {
             double t = 0;
@@ -858,16 +894,21 @@ namespace RS_7
             }
         }
 
+        // Метод возвращает историю итераций
         public int GetHistory(out double[,] history)
         {
             history = params_history.Clone() as double[,];
             return iteration_count;
         }
 
+        // Метод выполняет коррекцию горизонтального движения:
+        // Ограничивает максимальный размых рам робота, для избежания повреждений механизмов
         private void CorrectHorizontalMove(double[] dp, double[] coeff)
         {
+            // Проверить для каждой направляющей текущее расстояние до корпуса
             if (Math.Abs(dp[(int)DP.x12]) >= MAX_REL_DISTANCE_2_3)
             {
+                // Выставить нулевые параметры для скорости выбранной рамы и зафиксировать координату
                 dp[(int)DP.x12] = MAX_REL_DISTANCE_2_3 * Math.Sign(dp[(int)DP.x12]);
                 dp[(int)DP.x12_t] = 0;
                 if (null != coeff)

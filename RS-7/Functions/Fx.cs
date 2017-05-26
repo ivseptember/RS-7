@@ -2,6 +2,7 @@
 
 namespace RS_7.Functions
 {
+    // Класс содержит статические параметры для расчета сил на горизонтальных приводах рам
     public class FConst
     {
         public const double FLow = 5.49779;
@@ -12,6 +13,8 @@ namespace RS_7.Functions
         public const double delta = 0.2;
     }
 
+    // Классы Fx служат для расчета значения силы на гориозонтальном приводе соответствующей рамы
+    // Метод calculate возвращает значение силы в заданный момент времени
     public class F2
     {
         public static double calculate(double t)

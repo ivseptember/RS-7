@@ -1,10 +1,13 @@
 ﻿namespace RS_7.Functions.GroundReaction
 {
+    // Класс содержит массив для хранение текущих значений деформации грунта под опорами,
+    // а так же текущих скоростей изменения этой деформации
     public static class Deformations
     {
         public static double[] defs;
     }
 
+    // Структура содержит все необходимые для расчета силы реакции опоры параметры
     public struct NxParameter
     {
         public double xi;
@@ -41,6 +44,7 @@
         public double t;
     }
 
+    // Класс выполняет расчет силы реакции опоры по оси xi для заданного набора параметров p
     public class NxXi
     {
         public static double calculate(NxParameter p, out double def_value, out double def_speed)
@@ -80,6 +84,7 @@
         }
     }
 
+    // Класс выполняет расчет силы реакции опоры по оси eta для заданного набора параметров p
     public class NxEta
     {
         public static double calculate(NxParameter p, out double def_value, out double def_speed)
@@ -119,6 +124,7 @@
         }
     }
 
+    // Класс выполняет расчет силы реакции опоры по оси zeta для заданного набора параметров p
     public class NxZeta
     {
         public static double calculate(NxParameter p, out double def_value, out double def_speed)

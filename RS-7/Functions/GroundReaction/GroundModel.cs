@@ -1,5 +1,6 @@
 ﻿namespace RS_7.Functions.GroundReaction
 {
+    // Перечисление координат точек контакта для каждой из опор
     public enum CP
     {
         xi_1,
@@ -35,11 +36,13 @@
         zeta_8,
     }
 
+    // Класс обеспечивает моделирование грунта
     public static class GroundModel
     {
+        // Последние рассчитанные точки контакта опор робота
+        public static double[] cp;
 
-        public static double[] cp; //contact point
-
+        // Возвращает текущее значение высоты грунта на основе координат на плоскости
         public static double getZetaAxis(double xi, double eta)
         {
             return 0.00;

@@ -1,5 +1,7 @@
 ﻿namespace RS_7.Functions.Drives
 {
+    // Классы Sx служат для расчета значения высоты соответствующей ноги
+    // Метод calculate возвращает значение высоты в заданный момент времени
     public class S1
     {
         public static double calculate(double t)

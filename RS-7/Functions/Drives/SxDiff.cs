@@ -1,5 +1,7 @@
 ﻿namespace RS_7.Functions.Drives
 {
+    // Классы SxDiff служат для расчета скорости изменения высоты соответствующей ноги
+    // Метод calculate возвращает значение скорости в заданный момент времени
     public class S1Diff
     {
         public static double calculate(double t)

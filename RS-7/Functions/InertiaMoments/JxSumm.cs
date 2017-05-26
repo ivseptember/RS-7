@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Файл содержит вспомогательные классы для расчета соответствующих коэффициентов инерции
+// Подробнее об их использовании см. в MatrixCoeffA.cs
+
+using System;
 using System.Collections.Generic;
 
 namespace RS_7.Functions.InertiaMoments

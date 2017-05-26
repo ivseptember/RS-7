@@ -3,10 +3,12 @@ using RS_7.Functions.Drives;
 
 namespace RS_7.Functions.GroundReaction
 {
+    // Классы NxEta выполняют расчет силы реакции опоры для x-ой ноги робота по оси eta
     public class N1Eta
     {
         public static double calculate(IList<double> dp, IList<double> sp)
         {
+            // Инициализация структуры с параметрами расчета
             NxParameter p = new NxParameter();
 
             p.xi = dp[(int)DP.xi];
@@ -42,6 +44,7 @@ namespace RS_7.Functions.GroundReaction
 
             p.t = dp[(int)DP.t];
 
+            // Расчет сил реакции опоры
             return NxEta.calculate(p, out Deformations.defs[(int)DefParams.D1Eta], out Deformations.defs[(int)DefParams.D1Eta_S]);
         }
     }
